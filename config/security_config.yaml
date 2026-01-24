@@ -1,0 +1,50 @@
+security:
+  auth:
+    provider: "dummy"
+    authorization_header: "Authorization"
+    bearer_prefix: "Bearer"
+
+  default:
+    auth_required: false
+    required_roles: []
+    filter_by_department: false
+    require_sensitive_permission: false
+
+  routes:
+    - path: "/health"
+      methods: ["GET"]
+      auth_required: false
+
+    - path: "/me"
+      methods: ["GET"]
+      auth_required: true
+
+    - path: "/employees"
+      methods: ["GET"]
+      required_roles: ["employee", "department_manager", "hr_manager", "admin"]
+      filter_by_department: true
+      require_sensitive_permission: false
+
+    - path: "/employees/{id}"
+      methods: ["GET"]
+      required_roles: ["employee", "department_manager", "hr_manager", "admin"]
+      filter_by_department: true
+      require_sensitive_permission: true
+
+    - path: "/performance-reviews"
+      methods: ["GET"]
+      required_roles: ["department_manager", "hr_manager", "admin"]
+      filter_by_department: true
+      require_sensitive_permission: true
+
+    - path: "/admin/users"
+      methods: ["GET"]
+      required_roles: ["admin"]
+      filter_by_department: false
+      require_sensitive_permission: false
+
+  permissions:
+    view_sensitive_data:
+      roles: ["admin", "hr_manager"]
+    view_cross_department:
+      roles: ["admin", "hr_manager"]

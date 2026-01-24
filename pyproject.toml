@@ -1,0 +1,15 @@
+[project]
+name = "python-routes-security"
+version = "0.1.0"
+description = "Minimal FastAPI demo of configuration-driven route security"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+  "fastapi",
+  "uvicorn[standard]",
+  "pydantic",
+  "pydantic-settings",
+  "sqlalchemy",
+  "PyYAML",
+]
+

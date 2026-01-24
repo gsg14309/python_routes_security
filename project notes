@@ -1,0 +1,41 @@
+suggested tech stack. refine if required.
+--------
+python
+fastapi
+pydantic
+sqlalchemy
+sqlite
+uvicorn
+uv
+
+requirements
+-----
+demostrate gaurding of routes using fastapi
+routes need to be accesssible to only valid users who have the  correct roles
+further the end point should return  only  the department specific data
+the tables will have a column indicating if data is sensitive and should be accessible only if user has additional permissions
+
+this is a project explorig concepts for route management.  it will be used to integrate with an existing system
+this should be implemented in a way that is easy to understand and maintain
+need aminimal implmentation.
+key concepts in code should be annotated
+demonstarate pythonic way
+should fully follow best architectural  concepts and design practices
+this should be having least disruption and changes to the existing system. this is critical for the project
+as much as possible, the implementation should astarct this feature and itroduce it by configuration or a new component.
+the existing project is already developed in a significant manner without considering teh end point accesses and uthorization.
+assume that roles are provided. can create a dummy class to retuirn roles.
+
+
+
+create the tables
+choose a weel known domain
+create docuemntation in a md file 
+need a simple implementation to demostrate concepts with clarity and ease of understanding
+
+come up with an approach first
+create the approach and specs based upon this for review and approval before proceeding
+no code is needed at this point
+the expected outcome is a requirements docuemnt
+
+
