@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+import logging
+
 from fastapi import Depends, HTTPException, Request, status
 from sqlalchemy.orm import Session
 
@@ -8,6 +10,8 @@ from app.models.security import User
 from app.security.auth import extract_user_id, load_user
 from app.security.config import SecurityConfig
 from app.security.context import AuthzContext
+
+logger = logging.getLogger(__name__)
 
 
 def get_security_config(request: Request) -> SecurityConfig:
@@ -50,10 +54,12 @@ def enforce_security(
 
     auth_required = rule.auth_required or bool(decorator_roles) or decorator_filter_dept or decorator_sensitive
     if not auth_required:
+        logger.debug("Auth not required path=%s method=%s", path, method)
         return
 
     user_id = extract_user_id(request, config)
     if user_id is None:
+        logger.info("Auth required but no user id resolved path=%s method=%s", path, method)
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Missing user id")
 
     user = load_user(db, user_id)
@@ -64,6 +70,14 @@ def enforce_security(
 
     required_roles = set(rule.required_roles) | decorator_roles
     if required_roles and not (user_roles & required_roles):
+        logger.info(
+            "Forbidden (role mismatch) user_id=%s path=%s method=%s required_roles=%s user_roles=%s",
+            user.id,
+            path,
+            method,
+            sorted(required_roles),
+            sorted(user_roles),
+        )
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,
             detail=f"Insufficient role. Required one of: {sorted(required_roles)}",
@@ -84,6 +98,16 @@ def enforce_security(
         require_sensitive_permission=require_sensitive_permission,
         can_view_cross_department=can_view_cross_department,
         can_view_sensitive_data=can_view_sensitive_data,
+    )
+
+    logger.debug(
+        "AuthzContext set user_id=%s dept=%s path=%s method=%s filter_by_department=%s require_sensitive=%s",
+        user.id,
+        user.department_id,
+        path,
+        method,
+        filter_by_department,
+        require_sensitive_permission,
     )
 
 

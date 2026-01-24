@@ -1,5 +1,14 @@
 {
   "editor.fontSize": 16,
   "terminal.integrated.fontSize": 16,
-  "terminal.integrated.lineHeight": 1.2
+  "terminal.integrated.lineHeight": 1.2,
+  "outline.showVariables": false,
+  "outline.showConstants": false,
+  "outline.showFields": false,
+  "outline.showProperties": false,
+  "outline.showEvents": false,
+  "outline.showEnumMembers": false,
+  "outline.showFunctions": true,
+  "outline.showMethods": true,
+  "outline.showClasses": true
 }

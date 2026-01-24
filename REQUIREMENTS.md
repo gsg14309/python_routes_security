@@ -65,6 +65,17 @@ This project demonstrates a **non-invasive, configuration-driven approach** to a
 - **Dependency injection** - leverage FastAPI's dependency system
 - **Backward compatible** - existing routes without security annotations continue to work
 
+### 2.5 Logging and Observability
+- The system must emit **useful, structured logs** for:
+  - App startup/shutdown
+  - Authentication failures (401) and authorization failures (403)
+  - Security decisions (e.g., whether department/sensitive filtering is enabled for a request)
+  - Data scoping behavior (department filter / sensitive-row filter applied)
+- Logs must **not leak sensitive data**, especially:
+  - Raw bearer tokens
+  - PII beyond what is required for troubleshooting (prefer `user_id` and request path/method)
+- Logging verbosity must be configurable (e.g., `APP_LOG_LEVEL=INFO|DEBUG|...`).
+
 ---
 
 ## 3. Architecture Approach
@@ -690,6 +701,7 @@ security:
 ✅ Easy to understand and maintain  
 ✅ Minimal performance overhead  
 ✅ Extensible for future requirements  
+✅ Security-relevant events are logged without leaking secrets  
 
 ---
 

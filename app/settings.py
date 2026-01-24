@@ -19,6 +19,7 @@ class Settings(BaseSettings):
 
     db_url: str | None = None
     security_config_path: str | None = None
+    log_level: str = "INFO"
 
     def resolved_db_url(self) -> str:
         if self.db_url:

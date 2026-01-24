@@ -28,6 +28,15 @@ The app will create `app.db` and seed sample data on startup.
 - If your editor shows `Import ... could not be resolved`, make sure it is using this interpreter:
   - `.venv/bin/python`
 
+### Logging
+
+- Default log level is `INFO`.
+- To enable more detailed security/filter logs:
+
+```bash
+APP_LOG_LEVEL=DEBUG uv run uvicorn app.main:app --reload
+```
+
 ### Seeded demo users
 
 - `1`: `alice_admin` (role: `admin`, dept: HR)

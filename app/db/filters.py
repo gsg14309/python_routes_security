@@ -1,7 +1,11 @@
 from __future__ import annotations
 
+import logging
+
 from sqlalchemy import event
 from sqlalchemy.orm import Session, with_loader_criteria
+
+logger = logging.getLogger(__name__)
 
 
 @event.listens_for(Session, "do_orm_execute")
@@ -28,12 +32,14 @@ def _apply_authorization_filters(execute_state) -> None:
 
     if authz.filter_by_department and not authz.can_view_cross_department:
         dept_id = authz.department_id
+        logger.debug("Applying department filter dept_id=%s", dept_id)
         stmt = stmt.options(
             with_loader_criteria(Employee, lambda cls: cls.department_id == dept_id, include_aliases=True),
             with_loader_criteria(PerformanceReview, lambda cls: cls.department_id == dept_id, include_aliases=True),
         )
 
     if authz.require_sensitive_permission and not authz.can_view_sensitive_data:
+        logger.debug("Applying sensitive-row filter (hide sensitive rows)")
         stmt = stmt.options(
             with_loader_criteria(Employee, lambda cls: cls.is_sensitive.is_(False), include_aliases=True),
             with_loader_criteria(PerformanceReview, lambda cls: cls.is_sensitive.is_(False), include_aliases=True),

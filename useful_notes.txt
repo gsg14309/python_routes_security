@@ -1,0 +1,36 @@
+Cursor / VS Code quick shortcuts (macOS)
+
+Theme: Cursor Dark
+
+Chat (Cursor / Copilot Chat)
+- Open Command Palette: Cmd+Shift+P
+- Search “chat” and run “Toggle Chat” / “Focus Chat” (bindings vary by Cursor version)
+- Common VS Code Copilot Chat default: Ctrl+Cmd+I
+- Change shortcuts: Cmd+K then Cmd+S (Keyboard Shortcuts), search “chat”
+
+Terminal
+- Toggle Terminal: Ctrl+` (backtick)
+- Toggle Panel (terminal/output/problems area): Cmd+J
+- New Terminal: Ctrl+Shift+`
+- Kill Terminal: Cmd+Shift+P → “Terminal: Kill Terminal”
+
+Folders / Explorer
+- Toggle Sidebar: Cmd+B
+- Focus Explorer: Cmd+Shift+E
+- Reveal current file in Explorer: Cmd+K then R
+
+Quick navigation
+- Quick Open file: Cmd+P
+- Go to symbol in file: Cmd+Shift+O
+- Go to line: Ctrl+G
+- Search in file: Cmd+F
+- Search across project: Cmd+Shift+F
+- Go back / forward: Ctrl+-  /  Ctrl+Shift+-
+- Switch next tab: Ctrl+Tab
+- Switch previous tab: Ctrl+Shift+Tab
+
+Code outline (symbols tree)
+- Show Outline view: Cmd+Shift+P → “View: Open View…” → “Outline”
+- Focus Outline (if available): Cmd+Shift+P → “Outline: Focus on Outline View”
+- Quick symbol navigation (same data as outline): Cmd+Shift+O
+- Breadcrumbs (top of editor): Cmd+Shift+P → “View: Toggle Breadcrumbs”
