@@ -125,6 +125,12 @@ class EntraTokenValidator:
         """
         Validate the access token and return a TokenContext.
 
+        This is the instance method that does the real work. There is also a
+        module-level function ``validate_and_extract(token, config=...)`` in
+        this file that creates a validator and calls this method — use that
+        when you want a one-liner without holding a validator instance (e.g.
+        config from environment). Use this method when you already have an
+        ``EntraTokenValidator`` (e.g. for tests or when reusing one instance).
         Raises ValidationError if signature, issuer, audience, or lifetime
         checks fail.
         """
@@ -189,7 +195,11 @@ def validate_and_extract(token: str, config: EntraConfig | None = None) -> Token
     """
     Convenience function: validate bearer token and return TokenContext.
 
-    Uses config from environment if config is not provided.
+    Creates an ``EntraTokenValidator`` (loading config from the environment
+    if ``config`` is None) and delegates to its ``validate_and_extract``
+    instance method. Prefer this when you need a single call without
+    managing a validator instance; use ``EntraTokenValidator`` directly
+    when you want to reuse one validator (and its JWKS cache) for many tokens.
     """
     validator = EntraTokenValidator(config=config)
     return validator.validate_and_extract(token)

@@ -39,7 +39,11 @@ Entra ID issues **two** tokens during login:
 
 ### What are claims?
 
-Claims are key-value pairs inside the JWT payload. Important ones for this API:
+Claims are key-value pairs inside the JWT payload.
+
+**The table below describes claims from the access token (bearer token)** — the token the front end sends in `Authorization: Bearer <token>` and that this API validates. We do **not** read the ID token; the ID token is for the client and has a different claim set (e.g. identity-focused claims like `email`, `name`). All claims this utility uses come from the **access token** only.
+
+Important claims in the **access token** for this API:
 
 | Claim | Meaning | Example value |
 |-------|---------|---------------|
