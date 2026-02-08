@@ -1,0 +1,4 @@
+explain the security module in detail, along with explanation of the  code. 
+particularly focus on auth and dependencies modules. explain tehse in detail. 
+explain from pov a person from java background transitioning to python.
+capture to md file.

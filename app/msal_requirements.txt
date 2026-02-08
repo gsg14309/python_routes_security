@@ -1,0 +1,30 @@
+the code gets a toekn from front end.
+this token is then used to authenticate the user.
+the token is then used to authorize the user.
+the token is a bearer token.
+the token is a jwt token.
+it is signed by azure entra id.
+we need to validate the token.
+we need to extract the claims from the token.
+we need to extract the user id from the token.
+we need to extract the roles from the token.
+we need to extract the departments from the token.
+we need to extract the permissions from the token.
+we need to extract the scopes from the token.
+we need to extract the claims from the token.
+we need to extract the user id from the token.
+
+if roles are not present, we need to call microsoft graph to get the roles.
+please write a utility in a new package for this requirement
+this should be stand alone and not depend on any other package.
+
+the details of azure/entra id should be configured in the .env file.
+
+writer tests for the utility.
+write a readme for the utility.
+
+some important points:
+the code should be readable and pythonic
+
+questions:
+the users does a SSO ikn front end against azure entra id. what token does user pass? is it access token or id token?
