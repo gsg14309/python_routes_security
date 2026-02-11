@@ -83,7 +83,48 @@ TokenContext
 
 ---
 
-## 4. Module-by-module summary
+## 4. Access token: per-user vs application-level
+
+The access token that the **front end sends to your API** (and that this package validates) is **per user**, not per application.
+
+### Per-user (delegated) access token
+
+- **When it’s issued**: When a **specific user** signs in (e.g. via the browser with “Sign in with Microsoft”). Each sign-in produces a token for that user.
+- **What it contains**: The token’s claims describe **that user**:
+  - **Identity**: `oid`, `sub`, `preferred_username` are that user’s values.
+  - **Roles**: The `roles` claim lists the **App Roles assigned to that user** (or to groups they belong to). User A might have `["Admin"]`, User B might have `["Reader"]` — each token reflects that user’s assignments.
+  - **Scopes**: The `scp` claim lists the delegated scopes **that user** (or an admin) has consented to for your API.
+- **So**: Every request carries the token of the user who is calling. Validation gives you that user’s identity and their own roles/scopes. Permissions are therefore **on a per-user basis** in the token.
+
+### Application-level (app-only) token
+
+- **When it’s used**: When the **application** acts without a user — e.g. a background job or a server-to-server call. In this package, that happens only in **graph_client**: we use a **client credentials** (app-only) token to call Microsoft Graph to resolve a user’s group membership when roles aren’t in the token.
+- **Not used for API auth**: The token the browser sends in `Authorization: Bearer ...` is never app-only; it is always the **user’s** (delegated) access token. This package validates that user token and, if needed, uses an app-only token only to call Graph, not to identify the caller.
+
+### How this is configured in Azure
+
+**App Roles (per-user roles in the token):**
+
+1. **Define roles**: In **Azure portal → Microsoft Entra ID → App registrations → your API app → App roles**, create roles (e.g. “Admin”, “Reader”, “HRManager”).
+2. **Assign to users or groups**: In **Enterprise applications → your API app → Users and groups** (or via **App registrations → your API app → Enterprise application** link), **assign** users or groups to those app roles. Each user (or member of an assigned group) will see the corresponding role(s) in their access token’s `roles` claim when they get a token for your API.
+3. **Result**: User A assigned “Admin” gets a token with `roles: ["Admin"]`; User B assigned “Reader” gets `roles: ["Reader"]`. Same app, different tokens per user.
+
+**Scopes (delegated permissions, per user):**
+
+- In the API’s app registration, **Expose an API** defines scopes (e.g. `User.Read`). When users sign in, they (or an admin) consent to those scopes. The token’s `scp` then contains the scopes that **that user** has for your API.
+
+**Summary for this package:**
+
+| Token type        | Who it represents | Where used in this package                          |
+|-------------------|-------------------|-----------------------------------------------------|
+| Delegated (user)  | The signed-in user| The token we validate; `TokenContext` is per user. |
+| App-only          | The application   | Only inside `graph_client` to call Graph.           |
+
+So: **the access token we validate is always per user**; roles and permissions in it are that user’s. Azure configures that by defining App Roles (and optionally groups) and assigning users/groups to those roles in the portal.
+
+---
+
+## 5. Module-by-module summary
 
 ### `config.py`
 
@@ -136,7 +177,7 @@ from app.msal_util import validate_and_extract, ValidationError, TokenContext, E
 
 ---
 
-## 5. For developers with a Java background
+## 6. For developers with a Java background
 
 ### Package and modules
 
@@ -178,7 +219,7 @@ from app.msal_util import validate_and_extract, ValidationError, TokenContext, E
 
 ---
 
-## 6. Maintainer guidance
+## 7. Maintainer guidance
 
 ### Adding or changing a claim
 
@@ -222,7 +263,7 @@ Keep tests isolated: use env overrides (e.g. `_env` in `test_config.py`) and moc
 
 ---
 
-## 7. Quick reference: where to look
+## 8. Quick reference: where to look
 
 | Goal | File / symbol |
 |------|----------------|
