@@ -1,0 +1,11 @@
+this projects needs sql back end.
+it uses sql alchemy as the orm.
+not all dml uses orm. some of them uses raw sql.
+i am from java background.
+it was easy to test data layer with using springboot jpatest and other sql tst methods.
+what is the strategy to test the data layer in python?
+please explain how to write a test for the data layer with sql alchemy.
+please explain how to write a test for the data layer with raw sql.    
+please explain how to write a test for the data layer with orm.
+
+provide examples. explanations. produce a md file.

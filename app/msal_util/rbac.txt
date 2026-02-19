@@ -1,0 +1,42 @@
+i have a set of roles like reader, modeller, manager, Admin
+modeller has all privileges that a reader has
+manager has all privileges that a modeller has
+admin has all privileges that manager has and some modeller
+
+theese roles apply to end point access of a restapi backed by fastapi
+
+the privileges for roles are kept in yaml file.
+
+we need to load the yaml.
+prase and read the privileges.
+
+we extarct role from info in request,
+
+based on role, we ahve to determine if a user can acees a path and method.
+
+like GET method for /create_content
+
+assume teh domain is realted to conent creation like documents.
+
+the roles are hierarchical.
+
+come up with set of privileges for roles
+come up with yaml file with privileges , role wise.
+
+to avoid duplication, the yaml has extends clauses for each role. with one role extending the other.
+verify  by examining critically if this is a  good approach.
+because, the role checker checks for erecursive extends and makes logic complex.
+
+we  need a yaml loader, parser, role checker,role checker checxks based upon method(GET/POST), role and path.
+
+thew implementation needs to be simple, pythonic, clear.
+
+modeller:
+    display_name: reader_chap
+    Description:reader role
+    extends:
+        reader
+    allow:
+        -POST:/content/create
+
+
